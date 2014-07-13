@@ -10,6 +10,7 @@ function _buildFunctionCall(functionName, parameters){
 }
 
 module.exports = function(pgClient){
+	if (!pgClient) return;
 	var method = methood(pgClient);
 
 	method('func', function(functionName, cb){
