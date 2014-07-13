@@ -1,0 +1,23 @@
+{
+  "name": "mysql-myrules",
+  "version": "0.1.7",
+  "description": "mysql myrules",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha index.spec.js",
+    "testing": "./node_modules/.bin/nodemon ./node_modules/.bin/mocha index.spec.js"
+  },
+  "author": "mike chevett",
+  "license": "none",
+  "dependencies": {
+    "lodash": "^2.4.1",
+    "methood": "^0.1.1",
+    "pg": "^3.2.0",
+    "q": "~1.0.0"
+  },
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "mocha": "^1.20.1",
+    "nodemon": "^1.2.1"
+  }
+}
