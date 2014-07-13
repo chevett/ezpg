@@ -70,4 +70,22 @@ describe('ezpg', function(){
 			done();
 		});
 	});
+
+	it('should automatically rollback if there is a hard exception', function(done){
+		var transaction = ezpg.transaction(function(err, client, commit, rollback){
+			process.nextTick(function(){
+				throw new Error('oh man');
+			});
+		});
+
+		var wasRolledBack = false;
+		transaction.on('rollback', function(){
+			wasRolledBack = true;
+		});
+
+		transaction.on('error', function(err){
+			expect(wasRolledBack).to.be.equal(true);
+			done();
+		});
+	});
 });

@@ -3,6 +3,7 @@ var methood = require('methood');
 var EventEmitter = require('events').EventEmitter;
 var buildConnectionString = require('./build-connection-string');
 var myClient = require('./client');
+var atry = require('atry');
 
 
 var method = methood(exports);
@@ -34,6 +35,8 @@ method('transaction', function(connectionInfo, cb){
 
 			var rollback = function(cb){
 				client.query('ROLLBACK', function(err) {
+					if (wasTransactionProperlyEnded) return;
+
 					done(err || 'rolling back');
 					wasTransactionProperlyEnded = true;
 
@@ -43,6 +46,8 @@ method('transaction', function(connectionInfo, cb){
 			};
 			var commit = function() {
 				client.query('COMMIT', function(err){
+					if (wasTransactionProperlyEnded) return;
+
 					done(err);
 					wasTransactionProperlyEnded = true;
 
@@ -50,9 +55,10 @@ method('transaction', function(connectionInfo, cb){
 				});
 			};
 
-			try {
+
+			atry(function(){
 				cb(err, client, commit, rollback);
-			} catch (e){
+			}).catch (function(e){
 				if (!wasTransactionProperlyEnded){
 					rollback(function(){
 						eventEmitter.emit('error', e);
@@ -60,7 +66,7 @@ method('transaction', function(connectionInfo, cb){
 				} else {
 					eventEmitter.emit('error', e);
 				}
-			}
+			});
 		});
 	});
 
