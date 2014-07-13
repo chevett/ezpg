@@ -22,6 +22,10 @@ method('connection', function(connectionInfo, cb){
 });
 
 method('transaction', function(cb){
+	return exports.transaction({}, cb);
+});
+
+method('transaction', function(connectionInfo, cb){
 	var eventEmitter = new EventEmitter();
 
 	exports.connection(function(err, client, done){
