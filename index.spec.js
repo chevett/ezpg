@@ -54,4 +54,20 @@ describe('ezpg', function(){
 			});
 		});
 	});
+
+	it('should automatically rollback if there is an easy exception', function(done){
+		var transaction = ezpg.transaction(function(err, client, commit, rollback){
+			throw new Error('oh man');
+		});
+
+		var wasRolledBack = false;
+		transaction.on('rollback', function(){
+			wasRolledBack = true;
+		});
+
+		transaction.on('error', function(err){
+			expect(wasRolledBack).to.be.equal(true);
+			done();
+		});
+	});
 });

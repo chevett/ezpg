@@ -3,8 +3,6 @@ var methood = require('methood'),
 	util = require('util');
 
 function _buildFunctionCall(functionName, parameters){
-	parameters = parameters || [];
-
 	var strParameters = parameters.map(function(p, i){ return '$' + (i+1); });
 	return util.format('select * from %s(%s);', functionName, strParameters);
 }
@@ -18,6 +16,8 @@ module.exports = function(pgClient){
 	});
 
 	method('func', function(functionName, parameters, cb){
+		parameters = _.flatten([parameters], true);
+
 		pgClient.query(_buildFunctionCall(functionName, parameters), parameters, function(err, result){
 			if (err){
 				cb(err);

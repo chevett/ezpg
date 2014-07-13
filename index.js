@@ -30,21 +30,37 @@ method('transaction', function(connectionInfo, cb){
 
 	exports.connection(function(err, client, done){
 		client.query('BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE', function(err) {
-			var rollback = function(){
+			var wasTransactionProperlyEnded = false;
+
+			var rollback = function(cb){
 				client.query('ROLLBACK', function(err) {
 					done(err || 'rolling back');
+					wasTransactionProperlyEnded = true;
 
 					eventEmitter.emit('rollback');
+					if (cb) cb();
 				});
 			};
 			var commit = function() {
 				client.query('COMMIT', function(err){
 					done(err);
+					wasTransactionProperlyEnded = true;
+
 					eventEmitter.emit('commit');
 				});
 			};
 
-			cb(err, client, commit, rollback);
+			try {
+				cb(err, client, commit, rollback);
+			} catch (e){
+				if (!wasTransactionProperlyEnded){
+					rollback(function(){
+						eventEmitter.emit('error', e);
+					});
+				} else {
+					eventEmitter.emit('error', e);
+				}
+			}
 		});
 	});
 
