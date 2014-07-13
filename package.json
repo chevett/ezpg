@@ -1,14 +1,15 @@
 {
-  "name": "mysql-myrules",
+  "name": "ezpg",
   "version": "0.1.7",
-  "description": "mysql myrules",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha index.spec.js",
     "testing": "./node_modules/.bin/nodemon ./node_modules/.bin/mocha index.spec.js"
   },
+  "keywords":["postgres", "helper", "transaction"],
   "author": "mike chevett",
-  "license": "none",
+  "license": "MIT",
   "dependencies": {
     "lodash": "^2.4.1",
     "methood": "^0.1.1",
