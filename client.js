@@ -16,9 +16,13 @@ module.exports = function(pgClient){
 	});
 
 	method('func', function(functionName, parameters, cb){
+		if (typeof cb !== 'function') throw new Error('ezpg.func needs a callback!');
 		parameters = _.flatten([parameters], true);
 
-		pgClient.query(_buildFunctionCall(functionName, parameters), parameters, function(err, result){
+		var sql = _buildFunctionCall(functionName, parameters);
+
+		pgClient.query(sql, parameters, function(err, result){
+			
 			if (err){
 				cb(err);
 			} else {
