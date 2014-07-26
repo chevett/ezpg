@@ -3,7 +3,7 @@ var _ = require('lodash'),
 
 var CONNECTION_INFO = {
 	host     : process.env.MYSQL_MYRULES_HOST ||'localhost',
-	user     : process.env.MYSQL_MYRULES_USER || 'root',
+	user     : process.env.MYSQL_MYRULES_USER || 'relay',
 	database : process.env.MYSQL_MYRULES_DATABASE || 'relay',
 	password : process.env.MYSQL_MYRULES_PASS || ''
 };
