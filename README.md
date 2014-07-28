@@ -1,4 +1,4 @@
-ezpg [![Build Status](http://build.deliveryrelay.com:3000/chevett/ezpg/badge)](http://build.deliveryrelay.com:3000/chevett/ezpg)
+ezpg [![Build Status](https://build.deliveryrelay.com/chevett/ezpg/badge)](https://build.deliveryrelay.com/chevett/ezpg)
 ====
 
 
