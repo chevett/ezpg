@@ -22,11 +22,20 @@ module.exports = function(pgClient){
 		var sql = _buildFunctionCall(functionName, parameters);
 
 		pgClient.query(sql, parameters, function(err, result){
-			
-			if (err){
-				cb(err);
-			} else {
+			if (err) return cb(err);
+
+			var pluckFunctionName = result.rows.every(_.partialRight(_.has, functionName)),
+				pluckSingleKey = !pluckFunctionName && result.rows.every(function(row){
+					return _.keys(row).length === 1;
+				}),
+				singleKey = pluckSingleKey && result.rows.length > 0 && _.keys(result.rows[0])[0];
+
+			if (pluckFunctionName){
 				cb(null, _.pluck(result.rows, functionName));
+			} else if (pluckSingleKey){
+				cb(null, _.pluck(result.rows, singleKey));
+			} else {
+				cb(null, result.rows);
 			}
 		});
 	});
