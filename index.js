@@ -73,3 +73,9 @@ method('transaction', function(connectionInfo, cb){
 	return eventEmitter;
 });
 
+method('temporary', function(cb){
+	return exports.transaction(function(err, client, commit, rollback){
+		if (err) throw err;
+		cb(client, rollback);
+	});
+});
