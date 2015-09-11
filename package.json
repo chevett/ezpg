@@ -1,6 +1,6 @@
 {
   "name": "ezpg",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -15,15 +15,15 @@
   "author": "mike chevett",
   "license": "MIT",
   "dependencies": {
-    "atry": "0.0.1",
-    "lodash": "^2.4.1",
+    "arty": "^0.1.0",
+    "lodash": "^3.10.1",
     "methood": "^0.1.1",
-    "pg": "^3.2.0",
-    "q": "~1.0.0"
+    "pg": "^4.4.1",
+    "q": "^1.4.1"
   },
   "devDependencies": {
-    "chai": "^1.9.1",
-    "mocha": "^1.20.1",
-    "nodemon": "^1.2.1"
+    "chai": "^3.2.0",
+    "mocha": "^2.3.2",
+    "nodemon": "^1.4.1"
   }
 }
