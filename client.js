@@ -3,7 +3,7 @@ var methood = require('methood'),
 	util = require('util');
 
 function _buildFunctionCall(functionName, parameters){
-	var strParameters = parameters.map(function(p, i){ return '$' + (i+1); });
+	var strParameters = _.toArray(parameters).map(function(p, i){ return '$' + (i+1); });
 	return util.format('select * from %s(%s);', functionName, strParameters);
 }
 
@@ -17,7 +17,6 @@ module.exports = function(pgClient){
 
 	method('func', function(functionName, parameters, cb){
 		if (typeof cb !== 'function') throw new Error('ezpg.func needs a callback!');
-		parameters = _.flatten([parameters], true);
 
 		var sql = _buildFunctionCall(functionName, parameters);
 
